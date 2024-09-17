@@ -1,6 +1,6 @@
 /* eslint-disable camelcase */
 import axios, { AxiosInstance } from "axios";
-import axios, { HttpsProxyAgent } from "https-proxy-agent"; //se importa libreria para configurar proxy
+import proxyAgent, { HttpsProxyAgent } from "https-proxy-agent"; //se importa libreria para configurar proxy
 import Logger from "./logger";
 class DTOAuth {
   SSOUrl: string;
