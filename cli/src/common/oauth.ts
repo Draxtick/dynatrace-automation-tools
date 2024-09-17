@@ -1,5 +1,6 @@
 /* eslint-disable camelcase */
 import axios, { AxiosInstance } from "axios";
+import axios, { HttpsProxyAgent } from "https-proxy-agent"; //se importa libreria para configurar proxy
 import Logger from "./logger";
 class DTOAuth {
   SSOUrl: string;
@@ -12,17 +13,26 @@ class DTOAuth {
 
   axiosApiInstance: AxiosInstance;
 
+  httpsProxyAgent: HttpsProxyAgent; // se crea atributo de clase para el proxy http
+
   constructor(
     ssoUrl: string,
     clientId: string,
     clientSecret: string,
-    accountUUID: string
+    accountUUID: string,
+    httpProxyURL:string, // se agrega parametro en el constructor para configuracion de proxy
   ) {
     this.SSOUrl = ssoUrl;
     this.ClientId = clientId;
     this.ClientSecret = clientSecret;
     this.AccountUUID = accountUUID;
-    this.axiosApiInstance = axios.create();
+    this.httpsProxyAgent = new HttpsProxyAgent(httpProxyURL)// se instancia el objeto httpsProxyAgent con la url del proxy a configurar
+    // se instancia el objeto axiosApiInstance y se le pasa como parametro el objeto httpsProxyAgent y se setea el atributo proxy en false para 
+    //desactivar el proxy por defecto de axios
+    this.axiosApiInstance = axios.create({ 
+      this.httpsProxyAgent,
+      proxy: false
+    });
   }
 
   async GetScopedToken(scope: string): Promise<string> {

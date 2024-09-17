@@ -10,6 +10,7 @@ export type AuthOption = {
   "<client_id>": string;
   "<client_secret>": string;
   "<sso_url>": string;
+  "<https_proxy_url>": string; // se agrega variable de entorno para recibir la url del proxy http
 };
 
 class AuthOptions {
@@ -21,7 +22,9 @@ class AuthOptions {
       "<dynatrace_url_gen3>": "",
       "<client_id>": "",
       "<client_secret>": "",
-      "<sso_url>": ""
+      "<sso_url>": "",
+      "<https_proxy_url>": "" // se agrega linea para inicializar en blanco la variable del proxy http
+
     };
   }
 
@@ -57,6 +60,11 @@ class AuthOptions {
         new Option("<sso_url>", "Dynatrace SSO Oauth URL")
           .env("DYNATRACE_SSO_URL")
           .default("https://sso.dynatrace.com/sso/oauth2/token")
+      )
+      .addOption(
+        new Option("<https_proxy_url>", "http proxy URL")
+          .env("HTTP_PROXY_URL") 
+          .default("") // se inicializa la opcion https_proxy_url y La variable de entorno del proxy debe llamarse HTTP_PROXY_URL
       );
     return mainCommand;
   }
@@ -70,7 +78,8 @@ class AuthOptions {
       this.options["<sso_url>"],
       this.options["<client_id>"],
       this.options["<client_secret>"],
-      this.options["<account_urn>"]
+      this.options["<account_urn>"],
+      this.options["<https_proxy_url>"] // se agrega parametro para el proxy URL para el constructor de la clase DTOAuth
     );
 
     Logger.verbose("DTApiV3: Requesting scoped token for " + scope);
