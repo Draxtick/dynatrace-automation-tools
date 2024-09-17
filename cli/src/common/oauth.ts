@@ -26,6 +26,7 @@ class DTOAuth {
     this.ClientId = clientId;
     this.ClientSecret = clientSecret;
     this.AccountUUID = accountUUID;
+    
     this.httpsProxyAgent = new HttpsProxyAgent(httpProxyURL)// se instancia el objeto httpsProxyAgent con la url del proxy a configurar
     // se instancia el objeto axiosApiInstance y se le pasa como parametro el objeto httpsProxyAgent y se setea el atributo proxy en false para 
     //desactivar el proxy por defecto de axios
